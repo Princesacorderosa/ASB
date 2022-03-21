@@ -21,8 +21,9 @@ wget https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi/\?db\="$1"\&term
 #DESAFIO, FAZER SEM GRAVAR O OIOI o.o
 
 
-
-#wget https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi/\?db\=$1\&term\=$2\[organism\],cytb\[gene\]\&retmax=100\&usehistory\=y -O ./oioi.xml
+#function esearch
+Esearch(){
+      web=$(wget https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi/\?db\="$1"\&term\="$2"\[organism\],cytb\[gene\]\&usehistory\=y -O ./oioi.xml)
 
 # Get the list of IDs, comma separated and save them in xml file
 #ids=$(cat oioi.xml |grep -i "^<Id>" | sed 's/[^0-9]//g' | tr "\n" "," |rev |cut -c 2- |rev ) # > IDs.xml)
@@ -37,16 +38,21 @@ WebEnv=$(grep -o "<WebEnv>.*</WebEnv>" oioi.xml| sed 's/<WebEnv>//' | sed 's/<\/
 
 echo $query_key
 echo $WebEnv
+}
 #------------------------------------------
 #function para fetch
+
+Efetch(){
+
+xy=$query_key
+
 #https://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.EFetch
 
 #efetch.fcgi?db=protein&query_key=<key>&WebEnv=<webenv string>
 wget https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi/\?db\="$1"\&query_key\=$query_key\&WebEnv\=$WebEnv\&rettype\=fasta -O -
 
 #cat db_sp.fasta
-
-
+}
 
 #-----------------------------------------------------
 #criar functions 
